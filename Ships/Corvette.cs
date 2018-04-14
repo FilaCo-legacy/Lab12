@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ships
+namespace Лабораторная11
 {
-    public class Corvette:SteamShip
+    class Corvette:SteamShip
     {
         protected int _numOfGuns;
         public int NumOfGuns
@@ -43,6 +43,15 @@ namespace Ships
                 else
                     _caliberOfGuns = 7.62;
             }
+        }
+        public override object Clone()
+        {
+            return new Corvette("Клон " + this._name, this._dateReleased, this._portName, this._displacement, this.MaxSpeed,
+                     this.EnginePower, this.NumOfPipes, this.NumOfGuns, this.NumOfShells, this.CaliberOfGuns);
+        }
+        public override object ShallowClone()
+        {
+            return (Corvette)MemberwiseClone();
         }
         public Corvette():base()
         {

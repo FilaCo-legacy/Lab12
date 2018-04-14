@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ships
+namespace Лабораторная11
 {
-    public class SailingShip:Ship
+    class SailingShip:Ship
     {
         protected int _numOfSails;
         public int NumOfSails
@@ -42,7 +42,7 @@ namespace Ships
             get { return _dateReleased; }
             set
             {
-                if (CheckReg(value))
+                if (Program.CheckReg(value, regDateReleasedValue))
                     _dateReleased = value;
                 else
                     _dateReleased = "Incorrect";
@@ -56,6 +56,15 @@ namespace Ships
         public double Displacement
         {
             get { return _displacement; }
+        }
+        public override object Clone()
+        {
+            return new SailingShip("Клон " + this._name, this._dateReleased, this._portName, this._displacement, this.MaxSpeed,
+    this.NumOfSails, this.NumOfMasts);
+        }
+        public override object ShallowClone()
+        {
+            return (SailingShip)MemberwiseClone();
         }
         public SailingShip():base()
         {

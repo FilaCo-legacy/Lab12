@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Text.RegularExpressions;
 
-namespace Ships
+namespace Лабораторная11
 {
-    public abstract class Ship
+    public abstract class Ship: IWarVessel
     {
         public static string regDateReleasedValue = @"(?<=^|\s)((0{0,1}\d|1\d|2\d|3[01])(\.|\/)(0{0,1}[13578]|1[02])\3(1[7-9]\d\d|200\d))|((0{0,1}\d|1\d|2\d|30)(\.|\/)(0{0,1}[469]|11)\8(1[7-9]\d\d|200\d))|((0{0,1}\d|1\d|2[0-8])(\.|\/)(0{0,1}2)\13(1[7-9]\d\d))(?=$|\s)";
         protected static string[] listShipNames;
@@ -20,13 +20,6 @@ namespace Ships
         protected string _dateReleased;
         protected string _portName;
         protected double _displacement;
-        static protected bool CheckReg(string str)
-        {
-            Regex reg = new Regex(regDateReleasedValue);
-            if (str == "")
-                return false;
-            return reg.IsMatch(str);
-        }
         public Ship()
         {
             if (listShipNames == null)
@@ -54,6 +47,26 @@ namespace Ships
                 return -1;
             return 0;
         }
+        public abstract object Clone();
+        public abstract object ShallowClone();
+        public int Shells
+        {
+            get
+            {
+                if (this.GetType() == typeof(Corvette))
+                    return (this as Corvette).NumOfShells;
+                return 0;
+            }
+        }
+        public int Guns
+        {
+            get
+            {
+                if (this.GetType() == typeof(Corvette))
+                    return (this as Corvette).NumOfGuns;
+                return 0;
+            }
+        }
         public virtual void Show()
         {
             Console.WriteLine(@"Название: {0}
@@ -64,8 +77,8 @@ namespace Ships
         }
         private void InitRandomNames()
         {
-            listShipNames = File.ReadAllLines(@"Названия.txt", Encoding.Default);
-            listPortNames= File.ReadAllLines(@"Порты.txt", Encoding.Default);
+            listShipNames = File.ReadAllLines(@"D:\проекты\Викентьевой\lab11\Названия.txt", Encoding.Default);
+            listPortNames= File.ReadAllLines(@"D:\проекты\Викентьевой\lab11\Порты.txt", Encoding.Default);
         }
     }
 }
