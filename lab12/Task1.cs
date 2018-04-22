@@ -343,7 +343,30 @@ namespace lab12
         }
         private static void EnumItems(Stack curStack)
         {
-
+            int iter = 0;
+            foreach(Ship x in curStack)
+            {
+                Console.WriteLine("Корабль №{0}", iter + 1);
+                Console.WriteLine("+--------------------------------------+");
+                x.Show();
+                Console.WriteLine("+--------------------------------------+");
+                Console.WriteLine("Нажмите стрелку \"вправо\" для того, чтобы перейти к следующему элементу\n" +
+                    "Нажмите ESC, чтобы выйти из перебора");
+                bool flag = false;
+                while (!flag)
+                {
+                    switch (Console.ReadKey().Key)
+                    {
+                        case ConsoleKey.RightArrow:
+                            flag = true;
+                            break;
+                        case ConsoleKey.Escape:
+                            return;
+                    }
+                }
+                iter++;
+                Console.Clear();
+            }
         }
         private static void GetClone(Stack curStack)
         {
