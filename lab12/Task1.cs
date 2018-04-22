@@ -196,6 +196,50 @@ namespace lab12
                 }
             }
         }
+        private static void InputNumOfSails(SailingShip elem)
+        {
+            Console.WriteLine("Введите количество парусов корабля(оставьте пустым для генерации с помощью ДСЧ):");
+            bool check = false;
+            string inpStr = "";
+            while (!check)
+            {
+                try
+                {
+                    inpStr = Console.ReadLine();
+                    if (inpStr == "")
+                        return;
+                    elem.NumOfSails = Convert.ToInt32(inpStr);
+                    check = true;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    check = false;
+                }
+            }
+        }
+        private static void InputNumOfMasts(SailingShip elem)
+        {
+            Console.WriteLine("Введите кол-во мачт парусника(оставьте пустым для генерации с помощью ДСЧ):");
+            bool check = false;
+            string inpStr = "";
+            while (!check)
+            {
+                try
+                {
+                    inpStr = Console.ReadLine();
+                    if (inpStr == "")
+                        return;
+                    elem.NumOfMasts = Convert.ToInt32(inpStr);
+                    check = true;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    check = false;
+                }
+            }
+        }
         private static void InputElemFromKeyboard(Ship elem)
         {
             InputName(elem);
@@ -213,7 +257,8 @@ namespace lab12
             }
             if (elem is SailingShip)
             {
-
+                InputNumOfSails(elem as SailingShip);
+                InputNumOfMasts(elem as SailingShip);
             }
         }
         private static void PushElem(Stack curStack)
@@ -234,9 +279,12 @@ namespace lab12
             switch(Program.Menu("Выберите метод генерации элемента", "Ввод с клавиатуры", "С помощью ДСЧ"))
             {
                 case 0:
+                    InputElemFromKeyboard(nElem);
                     break;
             }
-
+            Console.WriteLine("Добавляемый элемент:");
+            nElem.Show();
+            curStack.Push(nElem);
         }
         private static void PrintAllTheFastest(Stack curStack)
         {
