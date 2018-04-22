@@ -370,7 +370,23 @@ namespace lab12
         }
         private static void GetClone(Stack curStack)
         {
-
+            switch (Program.Menu("Какую копию Вы хотите получить?", "Стандартным методом Stack.Clone()",
+                "Более глубокое поэлементное клонирование"))
+            {
+                case 0:
+                    Stack shallowClone = (Stack)curStack.Clone();
+                    Console.WriteLine("Поверхностный клон коллекции:");
+                    PrintStack(shallowClone);
+                    break;
+                case 1:
+                    Stack deeperClone = new Stack(curStack.Count);
+                    object[] nArr = curStack.ToArray();
+                    for (int i = nArr.Length -1; i >= 0; i--)
+                        deeperClone.Push((nArr[i] as Ship).ShallowClone());
+                    Console.WriteLine("Клон коллекции:");
+                    PrintStack(deeperClone);
+                    break;
+            }
         }
         private static Stack SortStack(Stack curStack)
         {
