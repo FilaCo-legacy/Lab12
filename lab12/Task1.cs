@@ -65,7 +65,7 @@ namespace lab12
         }
         private static void InputMaxSpeed(Ship elem)
         {
-            Console.WriteLine("Введите максимальную скорость (оставьте пустым для генерации с помощью ДСЧ):");
+            Console.WriteLine("Введите максимальную скорость в узлах (оставьте пустым для генерации с помощью ДСЧ):");
             bool check = false;
             string inpStr = "";
             while (!check)
@@ -87,7 +87,8 @@ namespace lab12
         }
         private static void InputDateReleased(Ship elem)
         {
-            Console.WriteLine("Введите дату выпуска корабля (оставьте пустым для генерации с помощью ДСЧ):");
+            Console.WriteLine("Введите дату выпуска корабля в формате дд/мм/гггг или дд.мм.гггг" +
+                "(оставьте пустым для генерации с помощью ДСЧ):");
             bool check = false;
             string inpStr = "";
             while (!check)
@@ -107,6 +108,50 @@ namespace lab12
                 }
             }
         }
+        private static void InputEnginePower(SteamShip elem)
+        {
+            Console.WriteLine("Введите мощность двигателя парохода в л.с.(оставьте пустым для генерации с помощью ДСЧ):");
+            bool check = false;
+            string inpStr = "";
+            while (!check)
+            {
+                try
+                {
+                    inpStr = Console.ReadLine();
+                    if (inpStr == "")
+                        return;
+                    elem.EnginePower = Convert.ToInt32(inpStr);
+                    check = true;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    check = false;
+                }
+            }
+        }
+        private static void InputNumOfPipes(SteamShip elem)
+        {
+            Console.WriteLine("Введите количество труб парохода(оставьте пустым для генерации с помощью ДСЧ):");
+            bool check = false;
+            string inpStr = "";
+            while (!check)
+            {
+                try
+                {
+                    inpStr = Console.ReadLine();
+                    if (inpStr == "")
+                        return;
+                    elem.NumOfPipes = Convert.ToInt32(inpStr);
+                    check = true;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    check = false;
+                }
+            }
+        }
         private static void InputElemFromKeyboard(Ship elem)
         {
             InputName(elem);
@@ -114,7 +159,9 @@ namespace lab12
             InputDateReleased(elem);
             if (elem is SteamShip)
             {
-                if (elem.GetType() == typeof(Corvette))
+                InputEnginePower(elem as SteamShip);
+                InputNumOfPipes(elem as SteamShip);
+                if (elem is Corvette)
                 {
 
                 }
