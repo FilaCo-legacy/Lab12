@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Ships;
 
 namespace lab12
 {
@@ -13,6 +8,7 @@ namespace lab12
     /// </summary>
     class Program
     {
+        public static Random rnd = new Random();
         /// <summary>
         /// Функция проверки соотвествия строки шаблону
         /// </summary>
@@ -30,6 +26,7 @@ namespace lab12
         /// <param name="headLine"> Заголовок меню</param>
         /// <param name="items"> Элементы меню</param>
         /// <returns> Номер выбранного элемента меню (нумерация с нуля) </returns>
+
         public static int Menu(string headLine, params string[] items)
         {
             Console.Clear();
@@ -95,6 +92,25 @@ namespace lab12
             Console.Clear();
             Console.CursorVisible = true;
             return paragraph;
+        }
+        /// <summary>
+        /// Функция ввода неотрицательного числа
+        /// </summary>
+        /// <param name="name">Имя вводимого параметра</param>
+        /// <returns>Результат ввода с консоли - неотрицательное число</returns>
+        public static int ReadNonNegativeNum(string name)
+        {
+            int inpNum;
+            bool check = false;
+            do
+            {
+                // Вводим целое число
+                check = int.TryParse(Console.ReadLine(), out inpNum);
+                // Проверка на натуральность
+                if (inpNum < 0 || !check)
+                    Console.WriteLine(name + " должен(но) быть неотрицательным числом, попробуйте ещё раз:");
+            } while (inpNum < 0 || !check);
+            return inpNum;
         }
         /// <summary>
         /// Точка старта выполнения программы

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ships
 {
-    class SteamShip:Ship
+    public class SteamShip:Ship
     {
         protected int _enginePower;
         protected int _numOfPipes;

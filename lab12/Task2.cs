@@ -23,6 +23,7 @@ namespace lab12
 6. Выполнить сортировку коллекции (если коллекция не отсортирована) и поиск заданного элемента в коллекции.");
             Console.WriteLine("\nДля продолжения работы нажмите Enter...");
             Console.ReadLine();
+            Console.Clear();
         }
 
         public static void Solve()

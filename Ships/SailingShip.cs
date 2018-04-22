@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ships
 {
-    class SailingShip:Ship
+    public class SailingShip:Ship
     {
         protected int _numOfSails;
         public int NumOfSails

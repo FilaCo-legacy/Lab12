@@ -25,6 +25,7 @@ namespace lab12
    методов.");
             Console.WriteLine("\nДля продолжения работы нажмите Enter...");
             Console.ReadLine();
+            Console.Clear();
         }
         public static void Solve()
         {

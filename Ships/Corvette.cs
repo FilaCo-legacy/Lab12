@@ -2,7 +2,7 @@
 
 namespace Ships
 {
-    class Corvette:SteamShip
+    public class Corvette:SteamShip
     {
         protected int _numOfGuns;
         public int NumOfGuns

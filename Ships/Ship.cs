@@ -11,7 +11,7 @@ namespace Ships
     public abstract class Ship
     {
         public static string regDateReleasedValue = @"(?<=^|\s)((0{0,1}\d|1\d|2\d|3[01])(\.|\/)(0{0,1}[13578]|1[02])\3(1[7-9]\d\d|200\d))|((0{0,1}\d|1\d|2\d|30)(\.|\/)(0{0,1}[469]|11)\8(1[7-9]\d\d|200\d))|((0{0,1}\d|1\d|2[0-8])(\.|\/)(0{0,1}2)\13(1[7-9]\d\d))(?=$|\s)";
-        protected static string[] listShipNames;
+        private static string[] listShipNames;
         protected static Random rnd = new Random();
         protected int _maxSpeed;
         protected string _name;
