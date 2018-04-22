@@ -1,0 +1,2 @@
+D:\проекты\Викентьевой\Lab12\Ships\obj\Debug\Ships.csprojResolveAssemblyReference.cache
+D:\проекты\Викентьевой\Lab12\Ships\obj\Debug\Ships.csproj.CoreCompileInputs.cache

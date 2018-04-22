@@ -1,0 +1,2 @@
+D:\проекты\Викентьевой\Lab12\lab12\obj\Debug\lab12.csprojResolveAssemblyReference.cache
+D:\проекты\Викентьевой\Lab12\lab12\obj\Debug\lab12.csproj.CoreCompileInputs.cache
