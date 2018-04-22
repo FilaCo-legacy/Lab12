@@ -15,8 +15,7 @@ namespace Ships
             set
             {
                 if (value < 1)
-                    _numOfSails = 1;
-                else
+                    throw new Exception("Количество парусов должно быть натуральным числом");
                     _numOfSails = value;
             }
         }
@@ -27,8 +26,8 @@ namespace Ships
             set
             {
                 if (value < (NumOfSails + 2) / 3)
-                    _numOfMasts = (NumOfSails + 2) / 3;
-                else
+                    throw new Exception("Кол-во мачт должно находиться в следующем\nсоотношении с кол-вом " +
+                        "парусов: k >= (n+2)/3, где k - кол-во мачт, n - кол-во парусов");
                     _numOfMasts = value;
             }
         }

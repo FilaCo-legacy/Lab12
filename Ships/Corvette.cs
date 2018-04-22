@@ -2,7 +2,7 @@
 
 namespace Ships
 {
-    public class Corvette:SteamShip
+    public class Corvette : SteamShip
     {
         protected int _numOfGuns;
         public int NumOfGuns
@@ -10,10 +10,9 @@ namespace Ships
             get { return _numOfGuns; }
             set
             {
-                if (value >= 1)
+                if (value < 1)
+                    throw new Exception("Количество пушек должно быть натуральным числом");
                     _numOfGuns = value;
-                else
-                    _numOfGuns = 1;
             }
         }
         protected int _numOfShells;
@@ -22,10 +21,9 @@ namespace Ships
             get { return _numOfShells; }
             set
             {
-                if (value >= 0)
-                    _numOfShells = value;
-                else
-                    _numOfShells = 0;
+                if (value < 0)
+                    throw new Exception("Боезапас не может быть отрицательным");
+                _numOfShells = value;
             }
         }
         public override object Clone()
@@ -37,14 +35,14 @@ namespace Ships
         {
             return (Corvette)MemberwiseClone();
         }
-        public Corvette():base()
+        public Corvette() : base()
         {
             NumOfGuns = rnd.Next(1, 21);
             NumOfShells = rnd.Next(NumOfGuns, NumOfGuns * 10);
         }
         public Corvette(string nameValue, string dateValue, int maxSpeedValue,
-            int enginePowerValue, int numOfPipesValue, int numOfGunsValue, int numOfShellsValue) 
-            : base(nameValue, dateValue, maxSpeedValue,  enginePowerValue, numOfPipesValue)
+            int enginePowerValue, int numOfPipesValue, int numOfGunsValue, int numOfShellsValue)
+            : base(nameValue, dateValue, maxSpeedValue, enginePowerValue, numOfPipesValue)
         {
             NumOfGuns = numOfGunsValue;
             NumOfShells = numOfShellsValue;

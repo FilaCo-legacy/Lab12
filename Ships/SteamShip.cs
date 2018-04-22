@@ -16,8 +16,7 @@ namespace Ships
             set
             {
                 if (value < 20)
-                    _enginePower = 20;
-                else
+                    throw new Exception("Мощность двигателя не может быть меньше 20 л.с.");
                     _enginePower = value;
             }
         }
@@ -27,9 +26,8 @@ namespace Ships
             set
             {
                 if (value < 1)
-                    _numOfPipes = 1;
-                else
-                    _numOfPipes = value;
+                    throw new Exception("Количество труб должно быть натуральным числом");
+                _numOfPipes = value;
             }
         }
         public override object Clone()

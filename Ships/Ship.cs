@@ -12,13 +12,31 @@ namespace Ships
     {
         public static string regDateReleasedValue = @"(?<=^|\s)((0{0,1}\d|1\d|2\d|3[01])(\.|\/)(0{0,1}[13578]|1[02])\3(1[7-9]\d\d|200\d))|((0{0,1}\d|1\d|2\d|30)(\.|\/)(0{0,1}[469]|11)\8(1[7-9]\d\d|200\d))|((0{0,1}\d|1\d|2[0-8])(\.|\/)(0{0,1}2)\13(1[7-9]\d\d))(?=$|\s)";
         private static string[] listShipNames;
+        protected static bool CheckReg(string str, string pattern)
+        {
+            Regex reg = new Regex(pattern);
+            return reg.IsMatch(str);
+        }
         protected static Random rnd = new Random();
         protected int _maxSpeed;
         protected string _name;
         protected string _dateReleased;
-        public int MaxSpeed { get { return _maxSpeed; } }
+        public int MaxSpeed
+        {
+            get { return _maxSpeed; }
+            set { if (value < 0) throw new Exception("Скорость не может быть меньше 0"); _maxSpeed = value}
+        }
         public string Name { set { _name = value; } get { return _name; } }
-        public string DateReleased { get { return _dateReleased; } }
+        public string DateReleased
+        {
+            get { return _dateReleased; }
+            set
+            {
+                if (!CheckReg(value, regDateReleasedValue))
+                    throw new Exception("Неверный формат даты");
+                _dateReleased = value;
+            }
+        }
         public Ship()
         {
             if (listShipNames == null)

@@ -26,7 +26,6 @@ namespace lab12
         /// <param name="headLine"> Заголовок меню</param>
         /// <param name="items"> Элементы меню</param>
         /// <returns> Номер выбранного элемента меню (нумерация с нуля) </returns>
-
         public static int Menu(string headLine, params string[] items)
         {
             Console.Clear();
@@ -35,14 +34,14 @@ namespace lab12
             Console.CursorVisible = false;
             for (int i = 0; i < items.Length; i++)
             {
-                Console.ForegroundColor = ConsoleColor.White;
+                Console.ForegroundColor = ConsoleColor.Gray;
                 Console.SetCursorPosition(x, y + i);
                 Console.Write("{0}. {1}",i+1,items[i]);
             }
             bool choice = false;
             while (true)
             {
-                Console.ForegroundColor = ConsoleColor.White;
+                Console.ForegroundColor = ConsoleColor.Gray;
                 Console.BackgroundColor = ConsoleColor.Black;
                 Console.SetCursorPosition(x, y + oldParagraph);
                 Console.Write("{0}. {1}",oldParagraph+1, items[oldParagraph] + " ");
@@ -82,7 +81,7 @@ namespace lab12
                     paragraph = items.Length - 1;
                 if (choice)
                 {
-                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.ForegroundColor = ConsoleColor.Gray;
                     Console.BackgroundColor = ConsoleColor.Black;
                     Console.CursorVisible = true;
                     Console.Clear();

@@ -54,9 +54,96 @@ namespace lab12
                 Console.WriteLine("+--------------------------------------+");
                 x.Show();
             }
+            Console.WriteLine("+--------------------------------------+");
+        }
+        private static void InputName(Ship elem)
+        {
+            Console.WriteLine("Введите имя нового корабля (оставьте пустым для генерации с помощью ДСЧ):");
+            string inpStr = Console.ReadLine();
+            if (inpStr != "")
+                elem.Name = inpStr;
+        }
+        private static void InputMaxSpeed(Ship elem)
+        {
+            Console.WriteLine("Введите максимальную скорость (оставьте пустым для генерации с помощью ДСЧ):");
+            bool check = false;
+            string inpStr = "";
+            while (!check)
+            {
+                try
+                {
+                    inpStr = Console.ReadLine();
+                    if (inpStr == "")
+                        return;
+                    elem.MaxSpeed = Convert.ToInt32(inpStr);
+                    check = true;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    check = false;
+                }
+            }
+        }
+        private static void InputDateReleased(Ship elem)
+        {
+            Console.WriteLine("Введите дату выпуска корабля (оставьте пустым для генерации с помощью ДСЧ):");
+            bool check = false;
+            string inpStr = "";
+            while (!check)
+            {
+                try
+                {
+                    inpStr = Console.ReadLine();
+                    if (inpStr == "")
+                        return;
+                    elem.DateReleased = inpStr;
+                    check = true;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    check = false;
+                }
+            }
+        }
+        private static void InputElemFromKeyboard(Ship elem)
+        {
+            InputName(elem);
+            InputMaxSpeed(elem);
+            InputDateReleased(elem);
+            if (elem is SteamShip)
+            {
+                if (elem.GetType() == typeof(Corvette))
+                {
+
+                }
+            }
+            if (elem is SailingShip)
+            {
+
+            }
         }
         private static void PushElem(Stack curStack)
         {
+            Ship nElem = null;
+            switch (Program.Menu("Выберите тип добавляемого элемента", "Пароход", "Парусник", "Корвет"))
+            {
+                case 0:
+                    nElem = new SteamShip();
+                    break;
+                case 1:
+                    nElem = new SailingShip();
+                    break;
+                case 2:
+                    nElem = new Corvette();
+                    break;
+            }
+            switch(Program.Menu("Выберите метод генерации элемента", "Ввод с клавиатуры", "С помощью ДСЧ"))
+            {
+                case 0:
+                    break;
+            }
 
         }
         private static void PrintAllTheFastest(Stack curStack)
@@ -71,7 +158,7 @@ namespace lab12
         {
 
         }
-        private static void ShowEnumCollection(Stack curStack)
+        private static void EnumItems(Stack curStack)
         {
 
         }
@@ -93,44 +180,53 @@ namespace lab12
             Console.WriteLine("Введите количество элементов, которые будут сгенерированы в коллекции:");
             int begLength = Program.ReadNonNegativeNum("Количество элементов");
             Stack taskCollection = GenerateStack(begLength);
-            switch(Program.Menu("Выберите действие", "Добавить элемент в коллекцию", "Удалить элемент из коллекции",
-                "Вывести самые быстроходные суда в коллекции", "Вывести количество судов, выпущенных ранее 1970 года",
-                "Вывести все корветты с пустым боезапасом", "Перебрать элементы коллекции", "Клонировать коллекцию",
-                "Отсортировать коллекцию", "Найти элемент коллекции по параметру", "Вернуться к выбору задания",
-                "Выход"))
+            while (true)
             {
-                case 0:
-                    PushElem(taskCollection);
-                    break;
-                case 1:
-                    taskCollection.Pop();
-                    break;
-                case 2:
-                    PrintAllTheFastest(taskCollection);
-                    break;
-                case 3:
-                    CountShipsOlder1970(taskCollection);
-                    break;
-                case 4:
-                    PrintAllEmptyCorvettes(taskCollection);
-                    break;
-                case 5:
-                    ShowEnumCollection(taskCollection);
-                    break;
-                case 6:
-                    GetClone(taskCollection);
-                    break;
-                case 7:
-                    taskCollection = SortStack(taskCollection);
-                    break;
-                case 8:
-                    FindElem(taskCollection);
-                    break;
-                case 9:
-                    return;
-                case 10:
-                    Environment.Exit(0);
-                    break;
+                switch (Program.Menu("Выберите действие", "Показать коллекцию", "Добавить элемент в коллекцию", 
+                    "Удалить элемент из коллекции", "Вывести самые быстроходные суда в коллекции", 
+                    "Вывести количество судов, выпущенных ранее 1970 года","Вывести все корветты с пустым боезапасом", 
+                    "Перебрать элементы коллекции", "Клонировать коллекцию","Отсортировать коллекцию", 
+                    "Найти элемент коллекции по параметру", "Вернуться к выбору задания","Выход"))
+                {
+                    case 0:
+                        Console.WriteLine("Сейчас коллекция выглядит так:");
+                        PrintStack(taskCollection);
+                        break;
+                    case 1:
+                        PushElem(taskCollection);
+                        break;
+                    case 2:
+                        taskCollection.Pop();
+                        break;
+                    case 3:
+                        PrintAllTheFastest(taskCollection);
+                        break;
+                    case 4:
+                        CountShipsOlder1970(taskCollection);
+                        break;
+                    case 5:
+                        PrintAllEmptyCorvettes(taskCollection);
+                        break;
+                    case 6:
+                        EnumItems(taskCollection);
+                        break;
+                    case 7:
+                        GetClone(taskCollection);
+                        break;
+                    case 8:
+                        taskCollection = SortStack(taskCollection);
+                        break;
+                    case 9:
+                        FindElem(taskCollection);
+                        break;
+                    case 10:
+                        return;
+                    case 11:
+                        Environment.Exit(0);
+                        break;
+                }
+                Console.WriteLine("Для продолжения работы нажмите Enter...");
+                Console.ReadLine();
             }
         }
     }
