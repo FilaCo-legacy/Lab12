@@ -1,2 +1,10 @@
 D:\проекты\Викентьевой\Lab12\lab12\obj\Debug\lab12.csprojResolveAssemblyReference.cache
 D:\проекты\Викентьевой\Lab12\lab12\obj\Debug\lab12.csproj.CoreCompileInputs.cache
+D:\проекты\Викентьевой\Lab12\lab12\bin\Debug\lab12.exe.config
+D:\проекты\Викентьевой\Lab12\lab12\bin\Debug\lab12.exe
+D:\проекты\Викентьевой\Lab12\lab12\bin\Debug\lab12.pdb
+D:\проекты\Викентьевой\Lab12\lab12\bin\Debug\Ships.dll
+D:\проекты\Викентьевой\Lab12\lab12\bin\Debug\Ships.pdb
+D:\проекты\Викентьевой\Lab12\lab12\obj\Debug\lab12.csproj.CopyComplete
+D:\проекты\Викентьевой\Lab12\lab12\obj\Debug\lab12.exe
+D:\проекты\Викентьевой\Lab12\lab12\obj\Debug\lab12.pdb

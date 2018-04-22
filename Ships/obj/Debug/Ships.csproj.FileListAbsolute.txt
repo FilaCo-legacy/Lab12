@@ -1,2 +1,6 @@
 D:\проекты\Викентьевой\Lab12\Ships\obj\Debug\Ships.csprojResolveAssemblyReference.cache
 D:\проекты\Викентьевой\Lab12\Ships\obj\Debug\Ships.csproj.CoreCompileInputs.cache
+D:\проекты\Викентьевой\Lab12\Ships\bin\Debug\Ships.dll
+D:\проекты\Викентьевой\Lab12\Ships\bin\Debug\Ships.pdb
+D:\проекты\Викентьевой\Lab12\Ships\obj\Debug\Ships.dll
+D:\проекты\Викентьевой\Lab12\Ships\obj\Debug\Ships.pdb

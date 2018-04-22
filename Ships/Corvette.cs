@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Лабораторная11
+namespace Ships
 {
     class Corvette:SteamShip
     {
@@ -32,22 +28,10 @@ namespace Лабораторная11
                     _numOfShells = 0;
             }
         }
-        protected double _caliberOfGuns;
-        public double CaliberOfGuns
-        {
-            get { return _caliberOfGuns; }
-            set
-            {
-                if (value >= 1)
-                    _caliberOfGuns = value;
-                else
-                    _caliberOfGuns = 7.62;
-            }
-        }
         public override object Clone()
         {
-            return new Corvette("Клон " + this._name, this._dateReleased, this._portName, this._displacement, this.MaxSpeed,
-                     this.EnginePower, this.NumOfPipes, this.NumOfGuns, this.NumOfShells, this.CaliberOfGuns);
+            return new Corvette("Клон " + this.Name, this.DateReleased, this.MaxSpeed,
+                     this.EnginePower, this.NumOfPipes, this.NumOfGuns, this.NumOfShells);
         }
         public override object ShallowClone()
         {
@@ -57,15 +41,13 @@ namespace Лабораторная11
         {
             NumOfGuns = rnd.Next(1, 21);
             NumOfShells = rnd.Next(NumOfGuns, NumOfGuns * 10);
-            CaliberOfGuns = rnd.Next(5, 100) + rnd.NextDouble();
         }
-        public Corvette(string nameValue, string dateValue, string portValue, double displacementValue, int maxSpeedValue,
-            int enginePowerValue, int numOfPipesValue, int numOfGunsValue, int numOfShellsValue, double caliberValue) 
-            : base(nameValue, dateValue, portValue, displacementValue, maxSpeedValue,  enginePowerValue, numOfPipesValue)
+        public Corvette(string nameValue, string dateValue, int maxSpeedValue,
+            int enginePowerValue, int numOfPipesValue, int numOfGunsValue, int numOfShellsValue) 
+            : base(nameValue, dateValue, maxSpeedValue,  enginePowerValue, numOfPipesValue)
         {
             NumOfGuns = numOfGunsValue;
             NumOfShells = numOfShellsValue;
-            CaliberOfGuns = caliberValue;
             EnginePower = enginePowerValue;
             NumOfPipes = numOfPipesValue;
         }
@@ -73,8 +55,7 @@ namespace Лабораторная11
         {
             base.Show();
             Console.WriteLine(@"Количество пушек: {0}
-Боезапас: {1}
-Калибр пушек (в мм): {2: 0.##}", NumOfGuns, NumOfShells, CaliberOfGuns);
+Боезапас: {1}", NumOfGuns, NumOfShells);
         }
     }
 }
