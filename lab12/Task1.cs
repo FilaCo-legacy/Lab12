@@ -282,9 +282,14 @@ namespace lab12
                     InputElemFromKeyboard(nElem);
                     break;
             }
-            Console.WriteLine("Добавляемый элемент:");
+            Console.WriteLine("Добавляемый элемент:\n");
             nElem.Show();
             curStack.Push(nElem);
+        }
+        private static void PopElem(Stack curStack)
+        {
+            Console.WriteLine("Удаляемый элемент:\n");
+            (curStack.Pop() as Ship).Show();
         }
         private static void PrintAllTheFastest(Stack curStack)
         {
@@ -329,14 +334,14 @@ namespace lab12
                     "Найти элемент коллекции по параметру", "Вернуться к выбору задания","Выход"))
                 {
                     case 0:
-                        Console.WriteLine("Сейчас коллекция выглядит так:");
+                        Console.WriteLine("Сейчас коллекция выглядит так:\n");
                         PrintStack(taskCollection);
                         break;
                     case 1:
                         PushElem(taskCollection);
                         break;
                     case 2:
-                        taskCollection.Pop();
+                        PopElem(taskCollection);
                         break;
                     case 3:
                         PrintAllTheFastest(taskCollection);
@@ -365,7 +370,7 @@ namespace lab12
                         Environment.Exit(0);
                         break;
                 }
-                Console.WriteLine("Для продолжения работы нажмите Enter...");
+                Console.WriteLine("\nДля продолжения работы нажмите Enter...");
                 Console.ReadLine();
             }
         }

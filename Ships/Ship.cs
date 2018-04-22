@@ -24,7 +24,7 @@ namespace Ships
         public int MaxSpeed
         {
             get { return _maxSpeed; }
-            set { if (value < 0) throw new Exception("Скорость не может быть меньше 0"); _maxSpeed = value}
+            set { if (value < 1) throw new Exception("Значение скорости должно быть натуральным"); _maxSpeed = value; }
         }
         public string Name { set { _name = value; } get { return _name; } }
         public string DateReleased
