@@ -291,9 +291,26 @@ namespace lab12
             Console.WriteLine("Удаляемый элемент:\n");
             (curStack.Pop() as Ship).Show();
         }
+        private static int MaxSpeedOfAll(Stack curStack)
+        {
+            int maxSpeed = -1;
+            foreach (Ship x in curStack)
+                if (x.MaxSpeed > maxSpeed)
+                    maxSpeed = x.MaxSpeed;
+            return maxSpeed;
+        }
         private static void PrintAllTheFastest(Stack curStack)
         {
-
+            int maxSpeed = MaxSpeedOfAll(curStack);
+            Console.WriteLine(@"Максимальная скорость корабля в коллекции: {0} узлов
+Корабли, развившие эту скорость:",maxSpeed);
+            foreach (Ship x in curStack)
+                if (x.MaxSpeed == maxSpeed)
+                {
+                    Console.WriteLine("+--------------------------------------+");
+                    x.Show();
+                }
+            Console.WriteLine("+--------------------------------------+");
         }
         private static void CountShipsOlder1970(Stack curStack)
         {
