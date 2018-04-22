@@ -314,7 +314,11 @@ namespace lab12
         }
         private static void CountShipsOlder1970(Stack curStack)
         {
-
+            int count = 0;
+            foreach (Ship x in curStack)
+                if (DateTime.Parse(x.DateReleased) < new DateTime(1970, 1, 1))
+                    count++;
+            Console.WriteLine("Количество кораблей, выпущенных ранее 1970ого года: {0}", count);
         }
         private static void PrintAllEmptyCorvettes(Stack curStack)
         {
