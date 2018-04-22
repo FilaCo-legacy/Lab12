@@ -390,7 +390,24 @@ namespace lab12
         }
         private static Stack SortStack(Stack curStack)
         {
-            return null;
+            object[] arr = curStack.ToArray();
+            switch(Program.Menu("Выберите параметр для сортировки коллекции", "Максимальная скорость", "Дата выпуска"))
+            {
+                case 0:
+                    Array.Sort(arr, new CompareByMaxSpeed());
+                    break;
+                case 1:
+                    Array.Sort(arr, new CompareByDateReleased());
+                    break;
+            }
+            Console.WriteLine("Результат сортировки коллекции:");
+            foreach(Ship x in arr)
+            {
+                Console.WriteLine("+--------------------------------------+");
+                x.Show();
+            }
+            Console.WriteLine("+--------------------------------------+");
+            return new Stack(arr);
         }
         private static void FindElem(Stack curStack)
         {

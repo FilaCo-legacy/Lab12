@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompareByDateReleased.cs" />
+    <Compile Include="CompareByMaxSpeed.cs" />
     <Compile Include="Corvette.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SailingShip.cs" />
