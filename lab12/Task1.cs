@@ -55,12 +55,83 @@ namespace lab12
                 x.Show();
             }
         }
+        private static void PushElem(Stack curStack)
+        {
+
+        }
+        private static void PrintAllTheFastest(Stack curStack)
+        {
+
+        }
+        private static void CountShipsOlder1970(Stack curStack)
+        {
+
+        }
+        private static void PrintAllEmptyCorvettes(Stack curStack)
+        {
+
+        }
+        private static void ShowEnumCollection(Stack curStack)
+        {
+
+        }
+        private static void GetClone(Stack curStack)
+        {
+
+        }
+        private static Stack SortStack(Stack curStack)
+        {
+            return null;
+        }
+        private static void FindElem(Stack curStack)
+        {
+
+        }
         public static void Solve()
         {
             Intro();
             Console.WriteLine("Введите количество элементов, которые будут сгенерированы в коллекции:");
             int begLength = Program.ReadNonNegativeNum("Количество элементов");
             Stack taskCollection = GenerateStack(begLength);
+            switch(Program.Menu("Выберите действие", "Добавить элемент в коллекцию", "Удалить элемент из коллекции",
+                "Вывести самые быстроходные суда в коллекции", "Вывести количество судов, выпущенных ранее 1970 года",
+                "Вывести все корветты с пустым боезапасом", "Перебрать элементы коллекции", "Клонировать коллекцию",
+                "Отсортировать коллекцию", "Найти элемент коллекции по параметру", "Вернуться к выбору задания",
+                "Выход"))
+            {
+                case 0:
+                    PushElem(taskCollection);
+                    break;
+                case 1:
+                    taskCollection.Pop();
+                    break;
+                case 2:
+                    PrintAllTheFastest(taskCollection);
+                    break;
+                case 3:
+                    CountShipsOlder1970(taskCollection);
+                    break;
+                case 4:
+                    PrintAllEmptyCorvettes(taskCollection);
+                    break;
+                case 5:
+                    ShowEnumCollection(taskCollection);
+                    break;
+                case 6:
+                    GetClone(taskCollection);
+                    break;
+                case 7:
+                    taskCollection = SortStack(taskCollection);
+                    break;
+                case 8:
+                    FindElem(taskCollection);
+                    break;
+                case 9:
+                    return;
+                case 10:
+                    Environment.Exit(0);
+                    break;
+            }
         }
     }
 }
