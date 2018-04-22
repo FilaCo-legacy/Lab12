@@ -152,6 +152,50 @@ namespace lab12
                 }
             }
         }
+        private static void InputNumOfGuns(Corvette elem)
+        {
+            Console.WriteLine("Введите количество пушек корветта(оставьте пустым для генерации с помощью ДСЧ):");
+            bool check = false;
+            string inpStr = "";
+            while (!check)
+            {
+                try
+                {
+                    inpStr = Console.ReadLine();
+                    if (inpStr == "")
+                        return;
+                    elem.NumOfGuns = Convert.ToInt32(inpStr);
+                    check = true;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    check = false;
+                }
+            }
+        }
+        private static void InputNumOfShells(Corvette elem)
+        {
+            Console.WriteLine("Введите боезапас корветта(оставьте пустым для генерации с помощью ДСЧ):");
+            bool check = false;
+            string inpStr = "";
+            while (!check)
+            {
+                try
+                {
+                    inpStr = Console.ReadLine();
+                    if (inpStr == "")
+                        return;
+                    elem.NumOfShells = Convert.ToInt32(inpStr);
+                    check = true;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    check = false;
+                }
+            }
+        }
         private static void InputElemFromKeyboard(Ship elem)
         {
             InputName(elem);
@@ -163,7 +207,8 @@ namespace lab12
                 InputNumOfPipes(elem as SteamShip);
                 if (elem is Corvette)
                 {
-
+                    InputNumOfGuns(elem as Corvette);
+                    InputNumOfShells(elem as Corvette);                    
                 }
             }
             if (elem is SailingShip)
