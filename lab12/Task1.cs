@@ -407,11 +407,128 @@ namespace lab12
                 x.Show();
             }
             Console.WriteLine("+--------------------------------------+");
-            return new Stack(arr);
+            curStack.Clear();
+            for (int i = arr.Length - 1; i >= 0; i--)
+                curStack.Push(arr[i]);
+            return curStack;
+        }
+        private static bool IsSortedByMaxSpeed(Stack curStack)
+        {
+            Ship prefElem = null;
+            foreach(Ship x in curStack)
+            {
+                if (prefElem != null && prefElem.MaxSpeed > x.MaxSpeed)
+                    return false;
+                prefElem = x;
+            }
+            return true;
+        }
+        private static bool IsSortedByDateReleased(Stack curStack)
+        {
+            Ship prefElem = null;
+            foreach (Ship x in curStack)
+            {
+                if (prefElem != null && DateTime.Parse(prefElem.DateReleased) > DateTime.Parse(x.DateReleased))
+                    return false;
+                prefElem = x;
+            }
+            return true;
         }
         private static void FindElem(Stack curStack)
         {
-
+            int ind = -1;
+            object cur = new Corvette("", "", 1, 20, 1, 1, 0);
+            object[] curArr = curStack.ToArray();
+            switch (Program.Menu("Выберите параметр для поиска элемента в коллекции", "Максимальная скорость", 
+                "Дата выпуска"))
+            {
+                case 0:
+                    if (!IsSortedByMaxSpeed(curStack))
+                    {
+                        Console.WriteLine("Коллекция не отсортирована по максимальной скорости! Отсортировать?(y/n)");
+                        bool check = false;
+                        while(!check)
+                            switch(Console.ReadLine())
+                            {
+                                case string k when k == "yes" || k == "Yes" || k == "y" || k =="Y"|| k=="YES":
+                                    Array.Sort(curArr, new CompareByMaxSpeed());
+                                    curStack.Clear();
+                                    for (int i = curArr.Length - 1; i >= 0; i--)
+                                        curStack.Push(curArr[i]);
+                                    check = true;
+                                    break;
+                                case string k when k == "no" || k == "No" || k == "n" || k == "N" || k == "NO":
+                                    Console.WriteLine("Извините, но поиск в неотсортированной коллекции невозможен");
+                                    return;
+                                default:
+                                    Console.WriteLine("Коллекция не отсортирована по максимальной скорости! " +
+                                        "Отсортировать?(y/n)");
+                                    break;
+                            }
+                    }                    
+                    Console.WriteLine("Введите искомую максимальную скорость");
+                    while (true)
+                    {                        
+                        try
+                        {
+                            (cur as Ship).MaxSpeed = Convert.ToInt32(Console.ReadLine());
+                            break;
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e.Message);
+                        }
+                    }                    
+                    ind = Array.BinarySearch(curArr, cur, new CompareByMaxSpeed());
+                    break;
+                case 1:
+                    if (!IsSortedByDateReleased(curStack))
+                    {
+                        Console.WriteLine("Коллекция не отсортирована по дате выпуска! Отсортировать?(y/n)");
+                        bool check = false;
+                        while (!check)
+                            switch (Console.ReadLine())
+                            {
+                                case string k when k == "yes" || k == "Yes" || k == "y" || k == "Y" || k == "YES":
+                                    Array.Sort(curArr, new CompareByDateReleased());
+                                    curStack.Clear();
+                                    for (int i = curArr.Length - 1; i >= 0; i--)
+                                        curStack.Push(curArr[i]);
+                                    check = true;
+                                    break;
+                                case string k when k == "no" || k == "No" || k == "n" || k == "N" || k == "NO":
+                                    Console.WriteLine("Извините, но поиск в неотсортированной коллекции невозможен");
+                                    return;
+                                default:
+                                    Console.WriteLine("Коллекция не отсортирована по дате выпуска! Отсортировать?(y/n)");
+                                    break;
+                            }
+                    }
+                    Console.WriteLine("Введите искомую дату выпуска");
+                    while (true)
+                    {
+                        try
+                        {
+                            (cur as Ship).DateReleased = Console.ReadLine();
+                            break;
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e.Message);
+                        }
+                    }
+                    ind = Array.BinarySearch(curArr, cur, new CompareByDateReleased());
+                    break;
+            }
+            if (ind < 0)
+                Console.WriteLine("Элемент с такими параметрами отсутствует");
+            else
+            {
+                Console.WriteLine("Элемент, удовлетворяющий заданным параметрам:");
+                Console.WriteLine("+--------------------------------------+");
+                (curArr[ind] as Ship).Show();
+                Console.WriteLine("+--------------------------------------+");
+            }
         }
         public static void Solve()
         {

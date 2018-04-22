@@ -10,12 +10,21 @@ namespace Ships
 {
     public abstract class Ship
     {
-        public static string regDateReleasedValue = @"(?<=^|\s)((0{0,1}\d|1\d|2\d|3[01])(\.|\/)(0{0,1}[13578]|1[02])\3(1[7-9]\d\d|200\d))|((0{0,1}\d|1\d|2\d|30)(\.|\/)(0{0,1}[469]|11)\8(1[7-9]\d\d|200\d))|((0{0,1}\d|1\d|2[0-8])(\.|\/)(0{0,1}2)\13(1[7-9]\d\d))(?=$|\s)";
         private static string[] listShipNames;
-        protected static bool CheckReg(string str, string pattern)
+        protected static bool CheckDate(string date)
         {
-            Regex reg = new Regex(pattern);
-            return reg.IsMatch(str);
+            try
+            {
+                DateTime checkTime = DateTime.Parse(date);
+                if (checkTime.Year < 1700 || checkTime > DateTime.Now)
+                    return false;
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+
         }
         protected static Random rnd = new Random();
         protected int _maxSpeed;
@@ -32,7 +41,7 @@ namespace Ships
             get { return _dateReleased; }
             set
             {
-                if (!CheckReg(value, regDateReleasedValue))
+                if (!CheckDate(value))
                     throw new Exception("Неверный формат даты");
                 _dateReleased = value;
             }
