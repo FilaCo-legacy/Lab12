@@ -8,5 +8,14 @@ namespace lab12
 {
     class Task3
     {
+        public static void Intro()
+        {
+
+        }
+        public static void Solve()
+        {
+            Intro();
+
+        }
     }
 }

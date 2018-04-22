@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Ships;
 
@@ -9,7 +10,14 @@ namespace lab12
 {
     class Program
     {
-        static int Menu(string headLine, params string[] paragraphs)
+        public static bool CheckReg(string str, string pattern)
+        {
+            Regex reg = new Regex(pattern);
+            if (str == "")
+                return false;
+            return reg.IsMatch(str);
+        }
+        public static int Menu(string headLine, params string[] paragraphs)
         {
             Console.Clear();
             Console.WriteLine(headLine);
@@ -19,7 +27,7 @@ namespace lab12
             {
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.SetCursorPosition(x, y + i);
-                Console.Write(paragraphs[i]);
+                Console.Write("{0}. {1}",i+1,paragraphs[i]);
             }
             bool choice = false;
             while (true)
@@ -27,12 +35,12 @@ namespace lab12
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.BackgroundColor = ConsoleColor.Black;
                 Console.SetCursorPosition(x, y + oldParagraph);
-                Console.Write(paragraphs[oldParagraph] + " ");
+                Console.Write("{0}. {1}",oldParagraph+1, paragraphs[oldParagraph] + " ");
 
                 Console.ForegroundColor = ConsoleColor.Black;
                 Console.BackgroundColor = ConsoleColor.White;
                 Console.SetCursorPosition(x, y + paragraph);
-                Console.Write(paragraphs[paragraph]);
+                Console.Write("{0}. {1}",paragraph+1, paragraphs[paragraph]);
 
                 oldParagraph = paragraph;
 
@@ -77,6 +85,26 @@ namespace lab12
         }
         static void Main(string[] args)
         {
+            while (true)
+            {
+                switch(Menu("Выберите задание", "Работа с коллекцией (Stack)", 
+                    "Работа с обобщённой коллекцией (List<T>)", 
+                    "Работа с собственной коллекцией (MySortedDictionary<T>)", "Выход"))
+                {
+                    case 0:
+                        Task1.Solve();
+                        break;
+                    case 1:
+                        Task2.Solve();
+                        break;
+                    case 2:
+                        Task3.Solve();
+                        break;
+                    case 3:
+                        return;
+
+                }
+            }
         }
     }
 }
