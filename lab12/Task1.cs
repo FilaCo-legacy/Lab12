@@ -303,7 +303,7 @@ namespace lab12
         {
             int maxSpeed = MaxSpeedOfAll(curStack);
             Console.WriteLine(@"Максимальная скорость корабля в коллекции: {0} узлов
-Корабли, развившие эту скорость:",maxSpeed);
+Корабли, развивающие эту скорость:",maxSpeed);
             foreach (Ship x in curStack)
                 if (x.MaxSpeed == maxSpeed)
                 {

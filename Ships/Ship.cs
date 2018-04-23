@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 
 namespace Ships
 {
-    public abstract class Ship
+    public abstract class Ship:IComparable,ICloneable
     {
         private static string[] listShipNames;
         protected static bool CheckDate(string date)

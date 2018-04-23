@@ -268,7 +268,7 @@ namespace lab12
                 check = Int32.TryParse(Console.ReadLine(), out pos);
                 if (!check || pos < 1 || pos > curList.Count)
                 {
-                    Console.WriteLine("Позиция должна быть натуральным числом");
+                    Console.WriteLine("Позиция должна находиться в пределах 1 <= k <= {0}", curList.Count);
                     check = false;
                 }
             } while (!check);
@@ -345,17 +345,13 @@ namespace lab12
         }
         private static int MaxSpeedOfAll(List<Ship> curList)
         {
-            int maxSpeed = -1;
-            foreach (Ship x in curList)
-                if (x.MaxSpeed > maxSpeed)
-                    maxSpeed = x.MaxSpeed;
-            return maxSpeed;
+            return curList.Max<Ship>(x => x.MaxSpeed);
         }
         private static void PrintAllTheFastest(List<Ship> curList)
         {
             int maxSpeed = MaxSpeedOfAll(curList);
             Console.WriteLine(@"Максимальная скорость корабля в коллекции: {0} узлов
-Корабли, развившие эту скорость ({1} штук):", maxSpeed, curList.Count(x=>x.MaxSpeed==maxSpeed));
+Корабли, развивающие эту скорость ({1} штук):", maxSpeed, curList.Count(x=>x.MaxSpeed==maxSpeed));
             foreach (Ship x in curList.FindAll(x=>x.MaxSpeed==maxSpeed))
             {
                 Console.WriteLine("+--------------------------------------+");
@@ -416,45 +412,43 @@ namespace lab12
                 "Более глубокое поэлементное клонирование"))
             {
                 case 0:
-                    List<Ship> shallowClone = (List<Ship>)curList.Clone();
+                    List<Ship> shallowClone = new List<Ship>(curList.Count);
+                    shallowClone.AddRange(curList);
                     Console.WriteLine("Поверхностный клон коллекции:");
                     PrintList(shallowClone);
                     break;
                 case 1:
-                    List deeperClone = new List(curList.Count);
-                    object[] nArr = curList.ToArray();
-                    for (int i = nArr.Length - 1; i >= 0; i--)
-                        deeperClone.Push((nArr[i] as Ship).ShallowClone());
+                    List<Ship> deeperClone = new List<Ship>(curList.Count);
+                    foreach (Ship x in curList)
+                        deeperClone.Add((Ship)x.ShallowClone());
                     Console.WriteLine("Клон коллекции:");
                     PrintList(deeperClone);
                     break;
             }
         }
-        private static List SortList(List curList)
+        private static List<Ship> SortList(List<Ship> curList)
         {
-            object[] arr = curList.ToArray();
+            Ship[] arr = curList.ToArray();
             switch (Program.Menu("Выберите параметр для сортировки коллекции", "Максимальная скорость", "Дата выпуска"))
             {
                 case 0:
-                    Array.Sort(arr, new CompareByMaxSpeed());
+                    Array.Sort<Ship>(arr);
                     break;
                 case 1:
                     Array.Sort(arr, new CompareByDateReleased());
                     break;
             }
             Console.WriteLine("Результат сортировки коллекции:");
-            foreach (Ship x in arr)
+            curList = arr.ToList<Ship>();
+            foreach (Ship x in curList)
             {
                 Console.WriteLine("+--------------------------------------+");
                 x.Show();
             }
             Console.WriteLine("+--------------------------------------+");
-            curList.Clear();
-            for (int i = arr.Length - 1; i >= 0; i--)
-                curList.Push(arr[i]);
             return curList;
         }
-        private static bool IsSortedByMaxSpeed(List curList)
+        private static bool IsSortedByMaxSpeed(List<Ship> curList)
         {
             Ship prefElem = null;
             foreach (Ship x in curList)
@@ -465,7 +459,7 @@ namespace lab12
             }
             return true;
         }
-        private static bool IsSortedByDateReleased(List curList)
+        private static bool IsSortedByDateReleased(List<Ship> curList)
         {
             Ship prefElem = null;
             foreach (Ship x in curList)
@@ -476,11 +470,11 @@ namespace lab12
             }
             return true;
         }
-        private static void FindElem(List curList)
+        private static void FindElem(List<Ship> curList)
         {
             int ind = -1;
-            object cur = new Corvette("", "", 1, 20, 1, 1, 0);
-            object[] curArr = curList.ToArray();
+            Ship cur = new Corvette("", "", 1, 20, 1, 1, 0);
+            Ship[] curArr = curList.ToArray();
             switch (Program.Menu("Выберите параметр для поиска элемента в коллекции", "Максимальная скорость",
                 "Дата выпуска"))
             {
@@ -493,10 +487,8 @@ namespace lab12
                             switch (Console.ReadLine())
                             {
                                 case string k when k == "yes" || k == "Yes" || k == "y" || k == "Y" || k == "YES":
-                                    Array.Sort(curArr, new CompareByMaxSpeed());
-                                    curList.Clear();
-                                    for (int i = curArr.Length - 1; i >= 0; i--)
-                                        curList.Push(curArr[i]);
+                                    Array.Sort<Ship>(curArr);
+                                    curList = curArr.ToList<Ship>();
                                     check = true;
                                     break;
                                 case string k when k == "no" || k == "No" || k == "n" || k == "N" || k == "NO":
@@ -513,7 +505,7 @@ namespace lab12
                     {
                         try
                         {
-                            (cur as Ship).MaxSpeed = Convert.ToInt32(Console.ReadLine());
+                            cur.MaxSpeed = Convert.ToInt32(Console.ReadLine());
                             break;
                         }
                         catch (Exception e)
@@ -521,7 +513,7 @@ namespace lab12
                             Console.WriteLine(e.Message);
                         }
                     }
-                    ind = Array.BinarySearch(curArr, cur, new CompareByMaxSpeed());
+                    ind = Array.BinarySearch<Ship>(curArr,cur);
                     break;
                 case 1:
                     if (!IsSortedByDateReleased(curList))
@@ -533,9 +525,7 @@ namespace lab12
                             {
                                 case string k when k == "yes" || k == "Yes" || k == "y" || k == "Y" || k == "YES":
                                     Array.Sort(curArr, new CompareByDateReleased());
-                                    curList.Clear();
-                                    for (int i = curArr.Length - 1; i >= 0; i--)
-                                        curList.Push(curArr[i]);
+                                    curList = curArr.ToList<Ship>();
                                     check = true;
                                     break;
                                 case string k when k == "no" || k == "No" || k == "n" || k == "N" || k == "NO":
@@ -551,7 +541,7 @@ namespace lab12
                     {
                         try
                         {
-                            (cur as Ship).DateReleased = Console.ReadLine();
+                            cur.DateReleased = Console.ReadLine();
                             break;
                         }
                         catch (Exception e)
@@ -568,7 +558,7 @@ namespace lab12
             {
                 Console.WriteLine("Элемент, удовлетворяющий заданным параметрам:");
                 Console.WriteLine("+--------------------------------------+");
-                (curArr[ind] as Ship).Show();
+                curArr[ind].Show();
                 Console.WriteLine("+--------------------------------------+");
             }
         }
@@ -577,7 +567,7 @@ namespace lab12
             Intro();
             Console.WriteLine("Введите количество элементов, которые будут сгенерированы в коллекции:");
             int begLength = Program.ReadNonNegativeNum("Количество элементов");
-            List taskCollection = GenerateList(begLength);
+            List<Ship> taskCollection = GenerateList(begLength);
             while (true)
             {
                 switch (Program.Menu("Выберите действие", "Показать коллекцию", "Добавить элемент в коллекцию",
@@ -591,10 +581,10 @@ namespace lab12
                         PrintList(taskCollection);
                         break;
                     case 1:
-                        PushElem(taskCollection);
+                        AddElem(taskCollection);
                         break;
                     case 2:
-                        PopElem(taskCollection);
+                        DeleteElem(taskCollection);
                         break;
                     case 3:
                         PrintAllTheFastest(taskCollection);
