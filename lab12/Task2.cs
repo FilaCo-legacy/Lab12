@@ -259,21 +259,29 @@ namespace lab12
                 InputNumOfMasts(elem as SailingShip);
             }
         }
-        private static void AddOnPos(List<Ship> curList, Ship nElem)
+        private static int InputPos(List<Ship> curList)
         {
-            Console.WriteLine("Введите позицию, на которую необходимо добавить элемент:");
             bool check = false;
             int pos;
             do
             {
                 check = Int32.TryParse(Console.ReadLine(), out pos);
                 if (!check || pos < 1 || pos > curList.Count)
+                {
                     Console.WriteLine("Позиция должна быть натуральным числом");
+                    check = false;
+                }
             } while (!check);
+            return pos;
+        }
+        private static void AddOnPos(List<Ship> curList, Ship nElem)
+        {
+            Console.WriteLine("Введите позицию, на которую необходимо добавить элемент:");
+            int pos = InputPos(curList);
             List<Ship> nList = new List<Ship>(curList.Capacity + 1);
             nList.AddRange(curList.GetRange(0, pos));
             nList.Add(nElem);
-            nList.AddRange(curList.GetRange(pos, curList.Count - pos);
+            nList.AddRange(curList.GetRange(pos, curList.Count - pos));
             curList = nList;
         }
         private static void AddElem(List<Ship> curList)
@@ -316,8 +324,24 @@ namespace lab12
         }
         private static void DeleteElem(List<Ship> curList)
         {
-            Console.WriteLine("Удаляемый элемент:\n");
-            (curList.Pop() as Ship).Show();
+            Ship delElem = null;
+            switch(Program.Menu("Каким образом выбрать удаляемый элемент?", "Позиция","Значение"))
+            {
+                case 0:
+                    Console.WriteLine("Введите позицию, с которой необходимо удалить элемент");
+                    int pos = InputPos(curList);
+                    Console.WriteLine("Удаляемый элемент:\n");
+                    curList[pos - 1].Show();
+                    curList.RemoveAt(pos - 1);
+                    break;
+                case 1:
+                    InputElemFromKeyboard(delElem);
+                    Console.WriteLine("Удаляемый элемент:\n");
+                    delElem.Show();
+                    if (!curList.Remove(delElem))
+                        Console.WriteLine("Элемента с такими полями нет в коллекции");
+                    break;
+            }
         }
         private static int MaxSpeedOfAll(List<Ship> curList)
         {
@@ -331,43 +355,33 @@ namespace lab12
         {
             int maxSpeed = MaxSpeedOfAll(curList);
             Console.WriteLine(@"Максимальная скорость корабля в коллекции: {0} узлов
-Корабли, развившие эту скорость:", maxSpeed);
-            foreach (Ship x in curList)
-                if (x.MaxSpeed == maxSpeed)
-                {
-                    Console.WriteLine("+--------------------------------------+");
-                    x.Show();
-                }
+Корабли, развившие эту скорость ({1} штук):", maxSpeed, curList.Count(x=>x.MaxSpeed==maxSpeed));
+            foreach (Ship x in curList.FindAll(x=>x.MaxSpeed==maxSpeed))
+            {
+                Console.WriteLine("+--------------------------------------+");
+                x.Show();
+            }
             Console.WriteLine("+--------------------------------------+");
         }
         private static void CountShipsOlder1970(List<Ship> curList)
         {
-            int count = 0;
-            foreach (Ship x in curList)
-                if (DateTime.Parse(x.DateReleased) < new DateTime(1970, 1, 1))
-                    count++;
-            Console.WriteLine("Количество кораблей, выпущенных ранее 1970ого года: {0}", count);
+            Console.WriteLine("Количество кораблей, выпущенных ранее 1970ого года: {0}", 
+                curList.Count(x=> DateTime.Parse(x.DateReleased) < new DateTime(1970, 1, 1)));
         }
         private static void PrintAllEmptyCorvettes(List<Ship> curList)
         {
-            Console.WriteLine("корветы с пустым боезапасом:");
-            bool flag = false;
-            foreach (Ship x in curList)
-            {
-                if (x is Corvette)
-                {
-                    if ((x as Corvette).NumOfShells == 0)
-                    {
-                        Console.WriteLine("+--------------------------------------+");
-                        x.Show();
-                        flag = true;
-                    }
-                }
-            }
-            if (!flag)
+            Console.WriteLine("Корветы с пустым боезапасом:");
+            if (curList.Count(x => x is Corvette && (x as Corvette).NumOfShells == 0) == 0)
                 Console.WriteLine("Таких нет! Все корветы заряжены и готовы к бою!");
             else
+            {
+                foreach (Corvette x in curList.FindAll(x => x is Corvette && (x as Corvette).NumOfShells == 0))
+                {
+                    Console.WriteLine("+--------------------------------------+");
+                    x.Show();
+                }                
                 Console.WriteLine("+--------------------------------------+");
+            }
         }
         private static void EnumItems(List<Ship> curList)
         {

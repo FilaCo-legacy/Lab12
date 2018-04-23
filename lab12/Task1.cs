@@ -322,7 +322,7 @@ namespace lab12
         }
         private static void PrintAllEmptyCorvettes(Stack curStack)
         {
-            Console.WriteLine("корветы с пустым боезапасом:");
+            Console.WriteLine("Корветы с пустым боезапасом:");
             bool flag = false;
             foreach (Ship x in curStack)
             {
