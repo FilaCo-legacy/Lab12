@@ -8,16 +8,16 @@ using Ships;
 
 namespace lab12
 {
-    public class MySortedDictionary<TKey, TValue>:IEnumerator<IComparable>, IEnumerable<IComparable>
+    public class MySortedDictionary<TKey, TValue>:IEnumerator<TKey>, IEnumerable<TKey>, ICloneable
     {
         private int index = -1;
         private int _count = 0;
         public int Count { get { return _count; } }
-        public List<IComparable> Keys
+        public List<TKey> Keys
         {
             get
             {
-                List<IComparable> allKeys = new List<IComparable>(Count);
+                List<TKey> allKeys = new List<TKey>(Count);
                 frame.GetKeys(allKeys);
                 return allKeys;
             }
@@ -31,44 +31,48 @@ namespace lab12
                 return allValues;
             }
         }
+        public object Clone()
+        {
+            return new MySortedDictionary<TKey, TValue>(this);
+        }
         private class SearchTree
         {
-            private KeyValuePair<IComparable, TValue> _data;
-            public KeyValuePair<IComparable, TValue> Data { get { return _data; } }
+            private KeyValuePair<TKey, TValue> _data;
+            public KeyValuePair<TKey, TValue> Data { get { return _data; } }
             private SearchTree _left, _right;
             public SearchTree Left { get { return _left; } }
             public SearchTree Right { get { return _right; } }
-            public static bool Add(KeyValuePair<IComparable, TValue> elem, SearchTree root)
+            public static bool Add(KeyValuePair<TKey, TValue> elem, SearchTree root)
             {
                 SearchTree cur = root;
                 SearchTree anc = null;
                 while (cur != null)
                 {
                     anc = cur;
-                    if (elem.Key.CompareTo(cur.Data.Key) == 0)
+                    if ((elem.Key as IComparable).CompareTo(cur.Data.Key) == 0)
                         return false;
-                    if (elem.Key.CompareTo(cur.Data.Key) == -1)
+                    if ((elem.Key as IComparable).CompareTo(cur.Data.Key) == -1)
                         cur = cur.Left;
-                    if (elem.Key.CompareTo(cur.Data.Key) == 1)
+                    if ((elem.Key as IComparable).CompareTo(cur.Data.Key) == 1)
                         cur = cur.Right;
                 }
                 cur = new SearchTree(elem);
-                if (cur.Data.Key.CompareTo(anc.Data.Key) == -1)
+                if ((cur.Data.Key as IComparable).CompareTo(anc.Data.Key) == -1)
                     anc._left = cur;
                 else
                     anc._right = cur;
                 return true;
             }
-            public static SearchTree Remove(IComparable key, SearchTree root)
+            public static SearchTree Remove(TKey key, SearchTree root)
             {
                 if (root == null)
                 {
                     Console.WriteLine("Данного элемента нет в дереве");
                     return root;
                 }
-                if (root.Data.Key.CompareTo(key) == -1)
+                if ((root.Data.Key as IComparable).CompareTo(key) == -1)
                     root._right = Remove(key, root.Right);
-                else if (root.Data.Key.CompareTo(key) == 1)
+                else if ((root.Data.Key as IComparable).CompareTo(key) == 1)
                     root._left = Remove(key, root.Left);
                 else
                 {
@@ -96,23 +100,23 @@ namespace lab12
                 return root;
 
             }
-            public static bool ContainsKey(IComparable keyValue, SearchTree root)
+            public static bool ContainsKey(TKey keyValue, SearchTree root)
             {
                 if (root == null)
                     return false;
-                if (root.Left != null && root.Data.Key.CompareTo(keyValue) == 1)
+                if (root.Left != null && (root.Data.Key as IComparable).CompareTo(keyValue) == 1)
                     return ContainsKey(keyValue, root.Left);
-                else if (root.Right != null && root.Data.Key.CompareTo(keyValue) == -1)
+                else if (root.Right != null && (root.Data.Key as IComparable).CompareTo(keyValue) == -1)
                     return ContainsKey(keyValue, root.Right);
                 else
                     return true;
             }
-            public static void CreateSearchTree(KeyValuePair<IComparable, TValue>[] elems, SearchTree root)
+            public static void CreateSearchTree(KeyValuePair<TKey, TValue>[] elems, SearchTree root)
             {
-                foreach (KeyValuePair<IComparable, TValue> cur in elems)
+                foreach (KeyValuePair<TKey, TValue> cur in elems)
                     Add(cur, root);
             }
-            public SearchTree(KeyValuePair<IComparable,TValue> elem)
+            public SearchTree(KeyValuePair<TKey,TValue> elem)
             {
                 _data = elem;
                 _left = null;
@@ -133,7 +137,7 @@ namespace lab12
                 if(Right != null)
                     Right.Show();
             }
-            public void GetKeys(List<IComparable> keys)
+            public void GetKeys(List<TKey> keys)
             {
                 if (Left != null)
                     Left.GetKeys(keys);
@@ -150,13 +154,13 @@ namespace lab12
                 if (Right != null)
                     Right.GetValues(values);
             }
-            public static TValue FindByKey(IComparable keyValue, SearchTree root)
+            public static TValue FindByKey(TKey keyValue, SearchTree root)
             {
                 if (root == null)
                     throw new Exception("Элемента с таким ключом нет в словаре");
-                if (root.Left != null && root.Data.Key.CompareTo(keyValue) == 1)
+                if (root.Left != null && (root.Data.Key as IComparable).CompareTo(keyValue) == 1)
                     return FindByKey(keyValue, root.Left);
-                else if (root.Right != null && root.Data.Key.CompareTo(keyValue) == -1)
+                else if (root.Right != null && (root.Data.Key as IComparable).CompareTo(keyValue) == -1)
                     return FindByKey(keyValue, root.Right);
                 else
                     return root.Data.Value;
@@ -169,10 +173,10 @@ namespace lab12
         }
         public MySortedDictionary(MySortedDictionary<TKey,TValue> ancDict)
         {
-            foreach(IComparable x in ancDict)
-                this.Add(new KeyValuePair<IComparable, TValue>(x, ancDict[x]));
+            foreach(TKey x in ancDict)
+                this.Add(new KeyValuePair<TKey, TValue>(x, ancDict[x]));
         }
-        public IEnumerator<IComparable> GetEnumerator()
+        public IEnumerator<TKey> GetEnumerator()
         {
             return Keys.GetEnumerator();
         }
@@ -180,7 +184,7 @@ namespace lab12
         {
             return GetEnumerator();
         }
-        public IComparable Current
+        public TKey Current
         {
             get
             {
@@ -215,7 +219,7 @@ namespace lab12
         {
 
         }
-        public bool ContainsKey(IComparable keyValue)
+        public bool ContainsKey(TKey keyValue)
         {
             return SearchTree.ContainsKey(keyValue, frame);
         }
@@ -223,7 +227,7 @@ namespace lab12
         {
             return Values.Contains<TValue>(value);
         }
-        public TValue this[IComparable key]
+        public TValue this[TKey key]
         {
             get
             {
@@ -237,15 +241,25 @@ namespace lab12
                 }
                 return default(TValue);
             }
+            set
+            {
+                if (ContainsKey(key))
+                {
+                    Remove(key);
+                    Add(new KeyValuePair<TKey, TValue>(key, value));
+                }
+                else
+                    throw new Exception("Элемент с таким ключом отсуствует");
+            }
         }
-        public void Add (KeyValuePair<IComparable, TValue> curElem)
+        public void Add (KeyValuePair<TKey, TValue> curElem)
         {
             if (SearchTree.Add(curElem, frame))
                 _count++;
             else
                 Console.WriteLine("Элемент с таким ключом уже находится в коллекции");
         }
-        public void Remove(IComparable keyValue)
+        public void Remove(TKey keyValue)
         {
             if (ContainsKey(keyValue))
                 _count--;
@@ -256,6 +270,10 @@ namespace lab12
             this.frame = null;
             this._count = 0;
             this.index = -1;
+        }
+        public void Show()
+        {
+            frame.Show();
         }
     }
 }
