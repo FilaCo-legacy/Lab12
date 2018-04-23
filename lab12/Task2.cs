@@ -261,7 +261,20 @@ namespace lab12
         }
         private static void AddOnPos(List<Ship> curList, Ship nElem)
         {
-
+            Console.WriteLine("Введите позицию, на которую необходимо добавить элемент:");
+            bool check = false;
+            int pos;
+            do
+            {
+                check = Int32.TryParse(Console.ReadLine(), out pos);
+                if (!check || pos < 1 || pos > curList.Count)
+                    Console.WriteLine("Позиция должна быть натуральным числом");
+            } while (!check);
+            List<Ship> nList = new List<Ship>(curList.Capacity + 1);
+            nList.AddRange(curList.GetRange(0, pos));
+            nList.Add(nElem);
+            nList.AddRange(curList.GetRange(pos, curList.Count - pos);
+            curList = nList;
         }
         private static void AddElem(List<Ship> curList)
         {
