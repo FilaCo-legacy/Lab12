@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,56 +8,56 @@ using Ships;
 
 namespace lab12
 {
-    public class MySortedDictionary<K, T>:IEnumerable<T>, IEnumerator<T>, ICloneable
+    public class MySortedDictionary<TKey, TValue>:IEnumerator<IComparable>, IEnumerable<IComparable>
     {
-        private int _count;
+        private int index = -1;
+        private int _count = 0;
         public int Count { get { return _count; } }
-        private int _capacity;
-        public int Capacity { get { if (_capacity < Count) _capacity = Count * 2; return _capacity; } }
-        public IComparable[] Keys
+        public List<IComparable> Keys
         {
             get
             {
-                int ind = 0;
-                IComparable[] arr = new IComparable[Count];
-                frame.GetKeys(ref ind, ref arr);
-                return arr;
+                List<IComparable> allKeys = new List<IComparable>(Count);
+                frame.GetKeys(allKeys);
+                return allKeys;
             }
         }
-        public T[] Values
+        public List<TValue> Values
         {
             get
             {
-                int ind = 0;
-                T[] arr = new T[Count];
-                frame.GetValues(ref ind, ref arr);
-                return arr;
+                List<TValue> allValues = new List<TValue>(Count);
+                frame.GetValues(allValues);
+                return allValues;
             }
         }
         private class SearchTree
         {
-            private KeyValuePair<IComparable, T> data;
-            private SearchTree left, right;
-            public static void Add(KeyValuePair<IComparable, T> elem, SearchTree root)
+            private KeyValuePair<IComparable, TValue> _data;
+            public KeyValuePair<IComparable, TValue> Data { get { return _data; } }
+            private SearchTree _left, _right;
+            public SearchTree Left { get { return _left; } }
+            public SearchTree Right { get { return _right; } }
+            public static bool Add(KeyValuePair<IComparable, TValue> elem, SearchTree root)
             {
                 SearchTree cur = root;
                 SearchTree anc = null;
                 while (cur != null)
                 {
                     anc = cur;
-                    if (elem.Key.CompareTo(cur.data.Key) == 0)
-                        return;
-                    if (elem.Key.CompareTo(cur.data.Key) == -1)
-                        cur = cur.left;
-                    if (elem.Key.CompareTo(cur.data.Key) == 1)
-                        cur = cur.right;
+                    if (elem.Key.CompareTo(cur.Data.Key) == 0)
+                        return false;
+                    if (elem.Key.CompareTo(cur.Data.Key) == -1)
+                        cur = cur.Left;
+                    if (elem.Key.CompareTo(cur.Data.Key) == 1)
+                        cur = cur.Right;
                 }
                 cur = new SearchTree(elem);
-                if (cur.data.Key.CompareTo(anc.data.Key) == -1)
-                    anc.left = cur;
+                if (cur.Data.Key.CompareTo(anc.Data.Key) == -1)
+                    anc._left = cur;
                 else
-                    anc.right = cur;
-
+                    anc._right = cur;
+                return true;
             }
             public static SearchTree Remove(IComparable key, SearchTree root)
             {
@@ -65,30 +66,30 @@ namespace lab12
                     Console.WriteLine("Данного элемента нет в дереве");
                     return root;
                 }
-                if (root.data.Key.CompareTo(key) == -1)
-                    root.right = Remove(key, root.right);
-                else if (root.data.Key.CompareTo(key) == 1)
-                    root.left = Remove(key, root.left);
+                if (root.Data.Key.CompareTo(key) == -1)
+                    root._right = Remove(key, root.Right);
+                else if (root.Data.Key.CompareTo(key) == 1)
+                    root._left = Remove(key, root.Left);
                 else
                 {
-                    Console.WriteLine("Элемент {0} подлежит удалению...", root.data.Value);
-                    if (root.left == null && root.right == null)
+                    Console.WriteLine("Элемент {0} подлежит удалению...", root.Data.Value);
+                    if (root.Left == null && root.Right == null)
                         return null;
-                    else if (root.left == null && root.right != null)
-                        root = root.right;
-                    else if (root.left != null && root.right == null)
-                        root = root.left;
+                    else if (root.Left == null && root.Right != null)
+                        root = root.Right;
+                    else if (root.Left != null && root.Right == null)
+                        root = root.Left;
                     else
                     {
-                        if (root.right.left == null)
+                        if (root.Right.Left == null)
                         {
-                            root.right.left = root.left;
-                            root = root.right;
+                            root.Right._left = root.Left;
+                            root = root.Right;
                         }
                         else
                         {
-                            root.data = root.right.left.data;
-                            root.right.left = Remove(root.right.left.data.Key, root.right.left);
+                            root._data = root.Right.Left.Data;
+                            root.Right._left = Remove(root.Right.Left.Data.Key, root.Right.Left);
                         }
                     }
                 }
@@ -99,90 +100,162 @@ namespace lab12
             {
                 if (root == null)
                     return false;
-                if (root.left != null && root.data.Key.CompareTo(keyValue) == 1)
-                    return ContainsKey(keyValue, root.left);
-                else if (root.right != null && root.data.Key.CompareTo(keyValue) == -1)
-                    return ContainsKey(keyValue, root.right);
+                if (root.Left != null && root.Data.Key.CompareTo(keyValue) == 1)
+                    return ContainsKey(keyValue, root.Left);
+                else if (root.Right != null && root.Data.Key.CompareTo(keyValue) == -1)
+                    return ContainsKey(keyValue, root.Right);
                 else
                     return true;
             }
-            public static void CreateSearchTree(KeyValuePair<IComparable, T>[] elems, SearchTree root)
+            public static void CreateSearchTree(KeyValuePair<IComparable, TValue>[] elems, SearchTree root)
             {
-                foreach (KeyValuePair<IComparable, T> cur in elems)
+                foreach (KeyValuePair<IComparable, TValue> cur in elems)
                     Add(cur, root);
             }
-            public SearchTree(KeyValuePair<IComparable,T> elem)
+            public SearchTree(KeyValuePair<IComparable,TValue> elem)
             {
-                data = elem;
-                left = null;
-                right = null;
+                _data = elem;
+                _left = null;
+                _right = null;
             }
-            public void Show(ref int iter)
+            public void Show()
             {
-                if (left != null)
-                {
-                    left.Show(ref iter);
-                    iter++;
-                }
-                Console.WriteLine(@"Номер элемента: {0}
-Ключ:
+                if (Left != null)
+                    Left.Show();
+                Console.WriteLine(@"Ключ:
 +--------------------------------------+
 {1}
 +--------------------------------------+
 Значение:
 +--------------------------------------+
 {2}
-+--------------------------------------+", iter+1, data.Key, data.Value);
-                iter++;
-                if(right != null)
-                {
-                    right.Show(ref iter);
-                    iter++;
-                }
++--------------------------------------+", Data.Key, Data.Value);
+                if(Right != null)
+                    Right.Show();
             }
-            public void GetKeys(ref int iter, ref IComparable[] keys)
+            public void GetKeys(List<IComparable> keys)
             {
-                if (left != null)
-                {
-                    left.GetKeys(ref iter, ref keys);
-                    iter++;
-                }
-                keys[iter] = data.Key;
-                iter++;
-                if (right != null)
-                {
-                    right.GetKeys(ref iter, ref keys);
-                    iter++;
-                }
+                if (Left != null)
+                    Left.GetKeys(keys);
+                keys.Add(Data.Key);
+                if (Right != null)
+                    Right.GetKeys(keys);
             }
-            public void GetValues(ref int iter, ref T[] values)
+            public void GetValues(List<TValue> values)
             {
-                if (left != null)
-                {
-                    left.GetValues(ref iter, ref values);
-                    iter++;
-                }
-                values[iter] = data.Value;
-                iter++;
-                if (right != null)
-                {
-                    right.GetValues(ref iter, ref values);
-                    iter++;
-                }
+                if (Left != null)
+                    Left.GetValues(values);
+                if (!values.Contains(Data.Value))
+                    values.Add(Data.Value);
+                if (Right != null)
+                    Right.GetValues(values);
+            }
+            public static TValue FindByKey(IComparable keyValue, SearchTree root)
+            {
+                if (root == null)
+                    throw new Exception("Элемента с таким ключом нет в словаре");
+                if (root.Left != null && root.Data.Key.CompareTo(keyValue) == 1)
+                    return FindByKey(keyValue, root.Left);
+                else if (root.Right != null && root.Data.Key.CompareTo(keyValue) == -1)
+                    return FindByKey(keyValue, root.Right);
+                else
+                    return root.Data.Value;
             }
         }
         private SearchTree frame;
-        public MySortedDictionary(int initCapacity=10)
+        public MySortedDictionary()
         {
-            _capacity = initCapacity;
+            _count = 0;
         }
-        public MySortedDictionary(MySortedDictionary<K,T> ancDict)
+        public MySortedDictionary(MySortedDictionary<TKey,TValue> ancDict)
+        {
+            foreach(IComparable x in ancDict)
+                this.Add(new KeyValuePair<IComparable, TValue>(x, ancDict[x]));
+        }
+        public IEnumerator<IComparable> GetEnumerator()
+        {
+            return Keys.GetEnumerator();
+        }
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+        public IComparable Current
+        {
+            get
+            {
+                if (index < 0 || index > Keys.Count) throw new Exception("Индекс находился вне границ коллекции");
+                return Keys[index];
+            }
+        }
+        object IEnumerator.Current
+        {
+            get
+            {
+                if (index < 0 || index > Keys.Count) throw new Exception("Индекс находился вне границ коллекции");
+                return Keys[index];
+            }
+        }
+        public bool MoveNext()
+        {
+            index++;
+            if (index < Keys.Count)
+                return true;
+            else
+            {
+                Reset();
+                return false;
+            }
+        }
+        public void Reset()
+        {
+            index = -1;
+        }
+        public void Dispose()
         {
 
         }
         public bool ContainsKey(IComparable keyValue)
         {
-
+            return SearchTree.ContainsKey(keyValue, frame);
+        }
+        public bool ContainsValue(TValue value)
+        {
+            return Values.Contains<TValue>(value);
+        }
+        public TValue this[IComparable key]
+        {
+            get
+            {
+                try
+                {
+                    return SearchTree.FindByKey(key, frame);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+                return default(TValue);
+            }
+        }
+        public void Add (KeyValuePair<IComparable, TValue> curElem)
+        {
+            if (SearchTree.Add(curElem, frame))
+                _count++;
+            else
+                Console.WriteLine("Элемент с таким ключом уже находится в коллекции");
+        }
+        public void Remove(IComparable keyValue)
+        {
+            if (ContainsKey(keyValue))
+                _count--;
+            frame = SearchTree.Remove(keyValue, frame);
+        }
+        public void Clear()
+        {
+            this.frame = null;
+            this._count = 0;
+            this.index = -1;
         }
     }
 }
