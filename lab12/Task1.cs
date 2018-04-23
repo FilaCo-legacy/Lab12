@@ -32,7 +32,7 @@ namespace lab12
         {
             Stack nStack = new Stack(length * 2);
             for (int i = 0; i < length; i++)
-                switch(Program.rnd.Next(0,3))
+                switch (Program.rnd.Next(0, 3))
                 {
                     case 0:
                         nStack.Push(new SailingShip());
@@ -252,7 +252,7 @@ namespace lab12
                 if (elem is Corvette)
                 {
                     InputNumOfGuns(elem as Corvette);
-                    InputNumOfShells(elem as Corvette);                    
+                    InputNumOfShells(elem as Corvette);
                 }
             }
             if (elem is SailingShip)
@@ -276,7 +276,7 @@ namespace lab12
                     nElem = new Corvette();
                     break;
             }
-            switch(Program.Menu("Выберите метод генерации элемента", "Ввод с клавиатуры", "С помощью ДСЧ"))
+            switch (Program.Menu("Выберите метод генерации элемента", "Ввод с клавиатуры", "С помощью ДСЧ"))
             {
                 case 0:
                     InputElemFromKeyboard(nElem);
@@ -303,7 +303,7 @@ namespace lab12
         {
             int maxSpeed = MaxSpeedOfAll(curStack);
             Console.WriteLine(@"Максимальная скорость корабля в коллекции: {0} узлов
-Корабли, развивающие эту скорость:",maxSpeed);
+Корабли, развивающие эту скорость:", maxSpeed);
             foreach (Ship x in curStack)
                 if (x.MaxSpeed == maxSpeed)
                 {
@@ -339,12 +339,12 @@ namespace lab12
             if (!flag)
                 Console.WriteLine("Таких нет! Все корветы заряжены и готовы к бою!");
             else
-            Console.WriteLine("+--------------------------------------+");
+                Console.WriteLine("+--------------------------------------+");
         }
         private static void EnumItems(Stack curStack)
         {
             int iter = 0;
-            foreach(Ship x in curStack)
+            foreach (Ship x in curStack)
             {
                 Console.WriteLine("Корабль №{0}", iter + 1);
                 Console.WriteLine("+--------------------------------------+");
@@ -381,7 +381,7 @@ namespace lab12
                 case 1:
                     Stack deeperClone = new Stack(curStack.Count);
                     object[] nArr = curStack.ToArray();
-                    for (int i = nArr.Length -1; i >= 0; i--)
+                    for (int i = nArr.Length - 1; i >= 0; i--)
                         deeperClone.Push((nArr[i] as Ship).ShallowClone());
                     Console.WriteLine("Клон коллекции:");
                     PrintStack(deeperClone);
@@ -391,7 +391,7 @@ namespace lab12
         private static Stack SortStack(Stack curStack)
         {
             object[] arr = curStack.ToArray();
-            switch(Program.Menu("Выберите параметр для сортировки коллекции", "Максимальная скорость", "Дата выпуска"))
+            switch (Program.Menu("Выберите параметр для сортировки коллекции", "Максимальная скорость", "Дата выпуска"))
             {
                 case 0:
                     Array.Sort(arr, new CompareByMaxSpeed());
@@ -401,7 +401,7 @@ namespace lab12
                     break;
             }
             Console.WriteLine("Результат сортировки коллекции:");
-            foreach(Ship x in arr)
+            foreach (Ship x in arr)
             {
                 Console.WriteLine("+--------------------------------------+");
                 x.Show();
@@ -415,7 +415,7 @@ namespace lab12
         private static bool IsSortedByMaxSpeed(Stack curStack)
         {
             Ship prefElem = null;
-            foreach(Ship x in curStack)
+            foreach (Ship x in curStack)
             {
                 if (prefElem != null && prefElem.MaxSpeed > x.MaxSpeed)
                     return false;
@@ -439,7 +439,7 @@ namespace lab12
             int ind = -1;
             object cur = new Corvette("", "", 1, 20, 1, 1, 0);
             object[] curArr = curStack.ToArray();
-            switch (Program.Menu("Выберите параметр для поиска элемента в коллекции", "Максимальная скорость", 
+            switch (Program.Menu("Выберите параметр для поиска элемента в коллекции", "Максимальная скорость",
                 "Дата выпуска"))
             {
                 case 0:
@@ -447,10 +447,10 @@ namespace lab12
                     {
                         Console.WriteLine("Коллекция не отсортирована по максимальной скорости! Отсортировать?(y/n)");
                         bool check = false;
-                        while(!check)
-                            switch(Console.ReadLine())
+                        while (!check)
+                            switch (Console.ReadLine())
                             {
-                                case string k when k == "yes" || k == "Yes" || k == "y" || k =="Y"|| k=="YES":
+                                case string k when k == "yes" || k == "Yes" || k == "y" || k == "Y" || k == "YES":
                                     Array.Sort(curArr, new CompareByMaxSpeed());
                                     curStack.Clear();
                                     for (int i = curArr.Length - 1; i >= 0; i--)
@@ -465,10 +465,10 @@ namespace lab12
                                         "Отсортировать?(y/n)");
                                     break;
                             }
-                    }                    
+                    }
                     Console.WriteLine("Введите искомую максимальную скорость");
                     while (true)
-                    {                        
+                    {
                         try
                         {
                             (cur as Ship).MaxSpeed = Convert.ToInt32(Console.ReadLine());
@@ -478,7 +478,7 @@ namespace lab12
                         {
                             Console.WriteLine(e.Message);
                         }
-                    }                    
+                    }
                     ind = Array.BinarySearch(curArr, cur, new CompareByMaxSpeed());
                     break;
                 case 1:
@@ -538,11 +538,11 @@ namespace lab12
             Stack taskCollection = GenerateStack(begLength);
             while (true)
             {
-                switch (Program.Menu("Выберите действие", "Показать коллекцию", "Добавить элемент в коллекцию", 
-                    "Удалить элемент из коллекции", "Вывести самые быстроходные суда в коллекции", 
-                    "Вывести количество судов, выпущенных ранее 1970 года","Вывести все корветы с пустым боезапасом", 
-                    "Перебрать элементы коллекции", "Клонировать коллекцию","Отсортировать коллекцию", 
-                    "Найти элемент коллекции по параметру", "Вернуться к выбору задания","Выход"))
+                switch (Program.Menu("Выберите действие", "Показать коллекцию", "Добавить элемент в коллекцию",
+                    "Удалить элемент из коллекции", "Вывести самые быстроходные суда в коллекции",
+                    "Вывести количество судов, выпущенных ранее 1970 года", "Вывести все корветы с пустым боезапасом",
+                    "Перебрать элементы коллекции", "Клонировать коллекцию", "Отсортировать коллекцию",
+                    "Найти элемент коллекции по параметру", "Вернуться к выбору задания", "Выход"))
                 {
                     case 0:
                         Console.WriteLine("Сейчас коллекция выглядит так:\n");

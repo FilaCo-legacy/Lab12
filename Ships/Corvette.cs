@@ -55,5 +55,9 @@ namespace Ships
             Console.WriteLine(@"Количество пушек: {0}
 Боезапас: {1}", NumOfGuns, NumOfShells);
         }
+        public override string ToString()
+        {
+            return base.ToString() + "\nКоличество пушек: " + this.NumOfGuns + "\nБоезапас: " + this.NumOfShells;
+        }
     }
 }

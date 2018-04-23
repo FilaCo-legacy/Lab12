@@ -67,7 +67,15 @@ namespace Ships
                 return 1;
             else if (this.MaxSpeed < cur.MaxSpeed)
                 return -1;
-            return 0;
+            else
+            {
+                if (DateTime.Parse(this.DateReleased) < DateTime.Parse(cur.DateReleased))
+                    return -1;
+                else if (DateTime.Parse(this.DateReleased) > DateTime.Parse(cur.DateReleased))
+                    return 1;
+                else
+                    return String.Compare(this.Name, cur.Name);
+            }
         }
         public abstract object Clone();
         public abstract object ShallowClone();
@@ -76,6 +84,11 @@ namespace Ships
             Console.WriteLine(@"Название: {0}
 Максимальная скорость (в узлах): {1}
 Дата выпуска: {2}", _name, _maxSpeed, _dateReleased);
+        }
+        public override string ToString()
+        {
+            return "Название: " + this.Name + "\nМаксимальная скорость (в узлах): " + this.MaxSpeed + 
+                "\nДата выпуска: " + this.DateReleased;
         }
         private void InitRandomNames()
         {

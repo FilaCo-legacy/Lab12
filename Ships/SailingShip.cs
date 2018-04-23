@@ -57,5 +57,9 @@ namespace Ships
             Console.WriteLine(@"Количество парусов: {0}
 Количество мачт: {1}", NumOfSails, NumOfMasts);
         }
+        public override string ToString()
+        {
+            return base.ToString() + "\nКоличество парусов: " + NumOfSails + "\nКоличество мачт: " + NumOfMasts;
+        }
     }
 }

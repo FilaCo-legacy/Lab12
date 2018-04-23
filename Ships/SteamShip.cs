@@ -56,5 +56,10 @@ namespace Ships
             Console.WriteLine(@"Мощность двигателя (в л.с): {0}
 Количество паровых труб: {1}", EnginePower, NumOfPipes);
         }
+        public override string ToString()
+        {
+            return base.ToString() + "\nМощность двигателя (в л.с): " + this.EnginePower + 
+                "\nКоличество паровых труб: " + this.NumOfPipes;
+        }
     }
 }
