@@ -42,8 +42,13 @@ namespace lab12
             private SearchTree _left, _right;
             public SearchTree Left { get { return _left; } }
             public SearchTree Right { get { return _right; } }
-            public static bool Add(KeyValuePair<TKey, TValue> elem, SearchTree root)
+            public static bool Add(KeyValuePair<TKey, TValue> elem, ref SearchTree root)
             {
+                if (root.Data.Key == null)
+                {
+                    root = new SearchTree(elem);
+                    return true;
+                }
                 SearchTree cur = root;
                 SearchTree anc = null;
                 while (cur != null)
@@ -51,9 +56,9 @@ namespace lab12
                     anc = cur;
                     if ((elem.Key as IComparable).CompareTo(cur.Data.Key) == 0)
                         return false;
-                    if ((elem.Key as IComparable).CompareTo(cur.Data.Key) == -1)
+                   else if ((elem.Key as IComparable).CompareTo(cur.Data.Key) == -1)
                         cur = cur.Left;
-                    if ((elem.Key as IComparable).CompareTo(cur.Data.Key) == 1)
+                    else if ((elem.Key as IComparable).CompareTo(cur.Data.Key) == 1)
                         cur = cur.Right;
                 }
                 cur = new SearchTree(elem);
@@ -114,7 +119,7 @@ namespace lab12
             public static void CreateSearchTree(KeyValuePair<TKey, TValue>[] elems, SearchTree root)
             {
                 foreach (KeyValuePair<TKey, TValue> cur in elems)
-                    Add(cur, root);
+                    Add(cur, ref root);
             }
             public SearchTree(KeyValuePair<TKey,TValue> elem)
             {
@@ -128,11 +133,11 @@ namespace lab12
                     Left.Show();
                 Console.WriteLine(@"Ключ:
 +--------------------------------------+
-{1}
+{0}
 +--------------------------------------+
 Значение:
 +--------------------------------------+
-{2}
+{1}
 +--------------------------------------+", Data.Key, Data.Value);
                 if(Right != null)
                     Right.Show();
@@ -162,14 +167,17 @@ namespace lab12
                     return FindByKey(keyValue, root.Left);
                 else if (root.Right != null && (root.Data.Key as IComparable).CompareTo(keyValue) == -1)
                     return FindByKey(keyValue, root.Right);
-                else
+                else if ((root.Data.Key as IComparable).CompareTo(keyValue) == 0)
                     return root.Data.Value;
+                else
+                    throw new Exception("Элемента с таким ключом нет в словаре");
             }
         }
         private SearchTree frame;
         public MySortedDictionary()
         {
             _count = 0;
+            frame = new SearchTree(new KeyValuePair<TKey, TValue>(default(TKey), default(TValue)));
         }
         public MySortedDictionary(MySortedDictionary<TKey,TValue> ancDict)
         {
@@ -254,7 +262,7 @@ namespace lab12
         }
         public void Add (KeyValuePair<TKey, TValue> curElem)
         {
-            if (SearchTree.Add(curElem, frame))
+            if (SearchTree.Add(curElem, ref frame))
                 _count++;
             else
                 Console.WriteLine("Элемент с таким ключом уже находится в коллекции");

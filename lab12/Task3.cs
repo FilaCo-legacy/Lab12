@@ -265,7 +265,8 @@ namespace lab12
             Console.WriteLine("Ключ искомого элемента:\n");
             findElem.Show();
             Console.WriteLine("Искомый элемент:");
-            curDict[findElem].Show();
+            if (curDict[findElem] != null)
+                curDict[findElem].Show();
         }
         public static void Solve()
         {

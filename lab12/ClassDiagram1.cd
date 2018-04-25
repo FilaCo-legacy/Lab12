@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="lab12.MySortedDictionary&lt;TKey, TValue&gt;" BaseTypeListCollapsed="true">
+    <Position X="7.25" Y="0.5" Width="1.5" />
+    <NestedTypes>
+      <Class Name="lab12.MySortedDictionary&lt;TKey, TValue&gt;.SearchTree" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>MySortedDictionary.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAACAEBBAACACABAQAAAAEAAAEoACgAQBBABA=</HashCode>
+      <FileName>MySortedDictionary.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="lab12.Program">
+    <Position X="3.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAAAAAAACAAAAAIIAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="lab12.Task1">
+    <Position X="5.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AGAAQDAAQAAYBAEIAAIABAIIDAAABIUACBAAAAIAQAg=</HashCode>
+      <FileName>Task1.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="lab12.Task2">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AGABQDAASAAYBAQAAEIAAAIIKBAABIUADBAAAAIAQAA=</HashCode>
+      <FileName>Task2.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="lab12.Task3">
+    <Position X="2" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AGAAQCAASAAYBAAAAAAAAABIABAABAQACAAAgAIAAAA=</HashCode>
+      <FileName>Task3.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
